@@ -334,10 +334,6 @@
       <input class="f-input" id="fName" name="name" type="text" required maxlength="80">
     </div>
     <div class="f-field">
-      <label class="f-label" for="fContact">Phone or Instagram</label>
-      <input class="f-input" id="fContact" name="contact" type="text" required maxlength="80" placeholder="832-XXX-XXXX or @yourhandle">
-    </div>
-    <div class="f-field">
       <label class="f-label" for="fWant">What are you looking for?</label>
       <textarea class="f-textarea" id="fWant" name="want" required maxlength="500" placeholder="e.g. 2023+ G63, black on black, ready this month"></textarea>
     </div>
@@ -351,8 +347,8 @@
       </select>
     </div>
     <div class="f-field">
-      <label class="f-label" for="fCity">City (optional)</label>
-      <input class="f-input" id="fCity" name="city" type="text" maxlength="60">
+      <label class="f-label" for="fCity">Preferred car location (optional)</label>
+      <input class="f-input" id="fCity" name="city" type="text" maxlength="60" placeholder="City where you want the car">
     </div>
     <div class="hp"><label>Website<input name="website" type="text" tabindex="-1"></label></div>
     <button class="f-submit chrome-fill" id="fSubmit" type="submit">Send Request</button>
@@ -588,9 +584,9 @@ reqForm.addEventListener('submit', async e => {
   e.preventDefault();
   const fd = new FormData(reqForm);
   if (fd.get('website')) { showDone(true); return; } /* honeypot bot — pretend success */
-  const name = fd.get('name').trim(), contact = fd.get('contact').trim(),
+  const name = fd.get('name').trim(),
         want = fd.get('want').trim(), budget = fd.get('budget'), city = (fd.get('city')||'').trim();
-  if (!name || !contact || !want) return;
+  if (!name || !want) return;
   const btn = document.getElementById('fSubmit');
   btn.disabled = true; btn.textContent = 'Sending…';
 
@@ -604,7 +600,6 @@ reqForm.addEventListener('submit', async e => {
           color: 0xC9C9CF,
           fields: [
             {name:'Name', value:name.slice(0,256), inline:true},
-            {name:'Contact', value:contact.slice(0,256), inline:true},
             {name:'Budget', value:String(budget).slice(0,256), inline:true},
             {name:'City', value:(city||'—').slice(0,256), inline:true},
             {name:'Looking for', value:want.slice(0,1000)}
@@ -614,22 +609,22 @@ reqForm.addEventListener('submit', async e => {
       }));
       await fetch(DISCORD_WEBHOOK_URL, {method:'POST', mode:'no-cors', body});
       showDone(true);
-    } catch(err){ showDone(false, name, contact, want, budget, city); }
+    } catch(err){ showDone(false, name, want, budget, city); }
   } else {
-    showDone(false, name, contact, want, budget, city);
+    showDone(false, name, want, budget, city);
   }
 });
 
-function showDone(sent, name, contact, want, budget, city){
+function showDone(sent, name, want, budget, city){
   reqForm.style.display = 'none';
   if (sent){
     fDone.innerHTML = '<div class="big">Request received 🤝</div><p>We\'ll reach out shortly. Want a faster answer? DM us on Instagram.</p><a class="ig-btn" href="' + IG_URL + '" target="_blank" rel="noopener">DM @ExoticsByJT</a>';
   } else {
-    const msg = 'Vehicle request — Name: ' + name + ' · Contact: ' + contact + ' · Budget: ' + budget + (city ? ' · City: ' + city : '') + ' · Looking for: ' + want;
+    const msg = 'Vehicle request — Name: ' + name + ' · Budget: ' + budget + (city ? ' · City: ' + city : '') + ' · Looking for: ' + want;
     try { navigator.clipboard.writeText(msg); } catch(e){}
     const smsBody = 'Yo Jude! My name is ' + name + '.'
       + ' I\'m looking for ' + want + '.'
-      + (city ? ' I\'m out in ' + city + '.' : '')
+      + (city ? ' Trying to get it in ' + city + '.' : '')
       + (budget && budget !== 'Not sure yet' ? ' Working with about ' + budget + ' down.' : '');
     const smsHref = 'sms:+18329956761?&body=' + encodeURIComponent(smsBody);
     fDone.innerHTML = '<div class="big">Got it 🤝</div><a class="ig-btn chrome-fill" href="' + smsHref + '" style="border:0">Text Me — Message Already Typed 📲</a><div><a class="sms-link" href="' + IG_URL + '" target="_blank" rel="noopener">Or DM me on Instagram</a></div>';
