@@ -221,6 +221,11 @@
   .f-done .big{font-size:16px; font-weight:800; color:var(--silver); letter-spacing:.04em}
   .f-done p{color:var(--muted); font-size:13px; margin-top:8px; line-height:1.65}
   .f-done .ig-btn{margin-top:16px}
+  .f-msgbox{
+    margin-top:14px; text-align:left; background:var(--card); border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; font-size:12.5px; color:var(--silver);
+    line-height:1.6; user-select:all; -webkit-user-select:all;
+  }
   .hp{position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden}
   .req-banner{
     display:block; text-align:center; margin:2px auto 34px; max-width:560px;
@@ -617,7 +622,7 @@ function showDone(sent, name, contact, want, budget, city){
   } else {
     const msg = 'Vehicle request — Name: ' + name + ' · Contact: ' + contact + ' · Budget: ' + budget + (city ? ' · City: ' + city : '') + ' · Looking for: ' + want;
     try { navigator.clipboard.writeText(msg); } catch(e){}
-    fDone.innerHTML = '<div class="big">One tap left</div><p>Your request is copied to your clipboard — tap below and paste it in the DM.</p><a class="ig-btn" href="' + IG_URL + '" target="_blank" rel="noopener">DM @ExoticsByJT</a>';
+    fDone.innerHTML = '<div class="big">One tap left 🤝</div><p>Your request is copied — tap below and paste it straight into the DM. It\'s also right here if you need it:</p><div class="f-msgbox">' + esc(msg) + '</div><a class="ig-btn" href="' + IG_URL + '" target="_blank" rel="noopener">DM @ExoticsByJT</a>';
   }
   fDone.style.display = 'block';
 }
