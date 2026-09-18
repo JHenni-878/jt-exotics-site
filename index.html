@@ -627,15 +627,13 @@ function showDone(sent, name, contact, want, budget, city){
   } else {
     const msg = 'Vehicle request — Name: ' + name + ' · Contact: ' + contact + ' · Budget: ' + budget + (city ? ' · City: ' + city : '') + ' · Looking for: ' + want;
     try { navigator.clipboard.writeText(msg); } catch(e){}
-    const smsBody = 'Yo Jude! My name is ' + name + '. Looking for ' + want + '.'
-      + (city ? ' Location: ' + city + '.' : '')
-      + (budget && budget !== 'Not sure yet' ? ' Budget: ' + budget + ' down.' : '');
+    const smsBody = 'Yo Jude! My name is ' + name + '.'
+      + ' I\'m looking for ' + want + '.'
+      + (city ? ' I\'m out in ' + city + '.' : '')
+      + (budget && budget !== 'Not sure yet' ? ' Working with about ' + budget + ' down.' : '')
+      + (contact ? ' Best contact for me: ' + contact + '.' : '');
     const smsHref = 'sms:+18329956761?&body=' + encodeURIComponent(smsBody);
-    fDone.innerHTML = '<div class="big">Got it 🤝</div><a class="ig-btn chrome-fill" id="doneIg" href="' + IG_URL + '" target="_blank" rel="noopener" style="border:0">DM Me Here</a><div><a class="sms-link" href="' + smsHref + '">Or text me — message already typed 📲</a></div>';
-    /* silent re-copy on tap so paste still works for whoever wants it */
-    document.getElementById('doneIg').addEventListener('click', () => {
-      try { navigator.clipboard.writeText(msg); } catch(e){}
-    });
+    fDone.innerHTML = '<div class="big">Got it 🤝</div><a class="ig-btn chrome-fill" href="' + smsHref + '" style="border:0">Text Me — Message Already Typed 📲</a><div><a class="sms-link" href="' + IG_URL + '" target="_blank" rel="noopener">Or DM me on Instagram</a></div>';
   }
   fDone.style.display = 'block';
 }
