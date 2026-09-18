@@ -424,16 +424,15 @@ function openModal(i){
     const dots = [...document.querySelectorAll('#gDots .g-dot')];
     const last = c.photos.length - 1;
     const idx = () => Math.round(gal.scrollLeft / gal.clientWidth);
+    const setDots = i => dots.forEach((d,k) => d.classList.toggle('on', k === i));
     const go = d => {
       const t = Math.max(0, Math.min(last, idx() + d));
       gal.scrollLeft = t * gal.clientWidth; // instant jump — smooth scroll gets cancelled by scroll-snap
+      setDots(t);
     };
     document.getElementById('gPrev').onclick = e => { e.stopPropagation(); go(-1); };
     document.getElementById('gNext').onclick = e => { e.stopPropagation(); go(1); };
-    gal.addEventListener('scroll', () => {
-      const i = idx();
-      dots.forEach((d,k) => d.classList.toggle('on', k === i));
-    }, {passive:true});
+    gal.addEventListener('scroll', () => setDots(idx()), {passive:true});
   }
 }
 function closeModal(){ modalBg.classList.remove('open'); document.body.style.overflow=''; }
