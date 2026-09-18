@@ -265,14 +265,14 @@
 /* Inventory Google Sheet (JT Exotics Inventory, Jude's Drive).
    Works once the sheet is shared "Anyone with link: Viewer".
    If unreachable, the baked-in inventory below is shown instead. */
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1e7pKPy69pdfzkzWHA8jhpfpcexvzb-W7t8LLWRJnrdI/gviz/tq?tqx=out:csv";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1jOmO3kOIWTTbV0HlUifIZDTBF68cGW-tAaZHjYuBLts/gviz/tq?tqx=out:csv";
 
 const IG_URL = "https://ig.me/m/exoticsbyjt";
 
 /* ============ BAKED INVENTORY (fallback) ============
    status: AVAILABLE | PENDING | SOLD — photos: filenames in /img/ */
 let INVENTORY = [
-  {status:"AVAILABLE", car:"2025 Chevrolet Corvette C8",        down:8750,  monthly:1800, term:"6 or 12 months · Lease to own", miles:"35k", city:"Miami, FL",   photos:[], note:""},
+  {status:"AVAILABLE", car:"2025 Chevrolet Corvette C8",        down:10000,  monthly:1800, term:"6 or 12 months · Lease to own", miles:"35k", city:"Miami, FL",   photos:[], note:""},
   {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Flexible — ask", miles:"36k",  city:"Phoenix, AZ", photos:["range-rover-1.jpg","range-rover-3.jpg","range-rover-2.jpg","range-rover-4.jpg","range-rover-5.jpg"], note:""},
   {status:"AVAILABLE", car:"2025 Mercedes-Benz Sprinter 2500",  down:15995, monthly:2950, term:"6 or 12 months · Lease to own", miles:"29k", city:"", photos:[], note:"Monthly includes GEICO commercial insurance."},
   {status:"AVAILABLE", car:"2024 Corvette Z06 2LT Convertible", down:25995, monthly:2800, term:"6 or 12 months · Lease to own", miles:"3k",  city:"Phoenix, AZ", photos:[], note:""},
