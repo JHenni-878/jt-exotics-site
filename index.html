@@ -187,6 +187,7 @@
   .spec{border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:rgba(255,255,255,.015)}
   .spec .k{font-size:9px; color:var(--dim); text-transform:uppercase; letter-spacing:.2em; font-weight:800}
   .spec .v{font-size:13.5px; font-weight:600; margin-top:4px; color:var(--silver)}
+  .spec:last-child:nth-child(odd){grid-column:1/-1}
   .m-note{margin-top:14px; font-size:12.5px; color:var(--muted)}
   .m-cta{
     display:flex; align-items:center; justify-content:center; gap:9px; margin-top:22px;
@@ -264,21 +265,22 @@
 /* Inventory Google Sheet (JT Exotics Inventory, Jude's Drive).
    Works once the sheet is shared "Anyone with link: Viewer".
    If unreachable, the baked-in inventory below is shown instead. */
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1I2kPPRKxc3SNXZHAlBpGhFFUYIw18sfTV_UbzTlf1ZA/gviz/tq?tqx=out:csv";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1e7pKPy69pdfzkzWHA8jhpfpcexvzb-W7t8LLWRJnrdI/gviz/tq?tqx=out:csv";
 
 const IG_URL = "https://ig.me/m/exoticsbyjt";
 
 /* ============ BAKED INVENTORY (fallback) ============
    status: AVAILABLE | PENDING | SOLD — photos: filenames in /img/ */
 let INVENTORY = [
-  {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Flexible — ask", miles:"36k",  city:"",            photos:["range-rover-1.jpg","range-rover-3.jpg","range-rover-2.jpg","range-rover-4.jpg","range-rover-5.jpg"], note:""},
+  {status:"AVAILABLE", car:"2025 Chevrolet Corvette C8",        down:8750,  monthly:1800, term:"6 or 12 months · Lease to own", miles:"35k", city:"Miami, FL",   photos:[], note:""},
+  {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Flexible — ask", miles:"36k",  city:"Phoenix, AZ", photos:["range-rover-1.jpg","range-rover-3.jpg","range-rover-2.jpg","range-rover-4.jpg","range-rover-5.jpg"], note:""},
   {status:"AVAILABLE", car:"2025 Mercedes-Benz Sprinter 2500",  down:15995, monthly:2950, term:"6 or 12 months · Lease to own", miles:"29k", city:"", photos:[], note:"Monthly includes GEICO commercial insurance."},
   {status:"AVAILABLE", car:"2024 Corvette Z06 2LT Convertible", down:25995, monthly:2800, term:"6 or 12 months · Lease to own", miles:"3k",  city:"Phoenix, AZ", photos:[], note:""},
   {status:"AVAILABLE", car:"2022 Mercedes-AMG G63",             down:30995, monthly:3900, term:"6 or 12 months · Lease to own", miles:"19k", city:"Phoenix, AZ", photos:[], note:"Star headliner."},
   {status:"AVAILABLE", car:"2020 Lamborghini Urus",             down:30999, monthly:4415, term:"6 or 12 months · Lease to own", miles:"40k", city:"Phoenix, AZ", photos:[], note:""},
   {status:"AVAILABLE", car:"2021 Rolls-Royce Cullinan",         down:41499, monthly:6250, term:"6 or 12 months",                miles:"20k", city:"Phoenix, AZ", photos:[], note:""},
   {status:"AVAILABLE", car:"2020 McLaren 720S Spyder",          down:49000, monthly:6000, term:"6 or 12 months · 7,500 mi/yr",  miles:"14k", city:"Phoenix, AZ", photos:[], note:""},
-  {status:"AVAILABLE", car:"2018 Lamborghini Huracan Spyder LP610-4", down:51499, monthly:7300, term:"6 or 12 months · Lease to own", miles:"", city:"", photos:[], note:""}
+  {status:"AVAILABLE", car:"2018 Lamborghini Huracan Spyder LP610-4", down:51499, monthly:7300, term:"6 or 12 months · Lease to own", miles:"", city:"Phoenix, AZ", photos:[], note:""}
 ];
 
 /* ============ STATE + HELPERS ============ */
@@ -355,7 +357,7 @@ function render(){
           <span class="down chrome">${money(c.down)}</span><span class="down-lbl">down</span>
           <span class="mo">${money(c.monthly)}/mo</span>
         </div>
-        <div class="meta"><span>${esc(c.term)}</span>${c.miles ? '<b>·</b><span>'+esc(c.miles)+' miles</span>' : ''}</div>
+        <div class="meta"><span>${esc(c.term)}</span>${c.miles ? '<b>·</b><span>'+esc(c.miles)+' miles</span>' : ''}<b>·</b><span>Shipping available</span></div>
         ${c.note ? '<div class="note">'+esc(c.note)+'</div>' : ''}
       </div>
     </article>`).join('');
@@ -382,6 +384,7 @@ function openModal(i){
         <div class="spec"><div class="k">Miles</div><div class="v">${c.miles ? esc(c.miles) : 'Ask'}</div></div>
         <div class="spec"><div class="k">Location</div><div class="v">${c.city ? esc(c.city) : 'Ask'}</div></div>
         <div class="spec"><div class="k">Approval</div><div class="v">No credit check</div></div>
+        <div class="spec"><div class="k">Shipping</div><div class="v">Available — insured enclosed transport</div></div>
       </div>
       ${c.note ? '<div class="m-note">'+esc(c.note)+'</div>' : ''}
       <a class="m-cta chrome-fill" href="${IG_URL}" target="_blank" rel="noopener">
