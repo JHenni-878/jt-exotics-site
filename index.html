@@ -631,8 +631,8 @@ function showDone(sent, name, contact, want, budget, city){
       + (city ? ' Location: ' + city + '.' : '')
       + (budget && budget !== 'Not sure yet' ? ' Budget: ' + budget + ' down.' : '');
     const smsHref = 'sms:+18329956761?&body=' + encodeURIComponent(smsBody);
-    fDone.innerHTML = '<div class="big">One tap left 🤝</div><p>Your request is copied. Tap below, then <b style="color:var(--silver)">long-press the message box and hit Paste</b> — that\'s it. Your message:</p><div class="f-msgbox">' + esc(msg) + '</div><a class="ig-btn" id="doneIg" href="' + IG_URL + '" target="_blank" rel="noopener">DM @ExoticsByJT</a><div><a class="sms-link" href="' + smsHref + '">Prefer text? Tap here — your message is already typed 📲</a></div>';
-    /* re-copy on the actual tap — a fresh user gesture guarantees the clipboard write on mobile */
+    fDone.innerHTML = '<div class="big">Got it 🤝</div><a class="ig-btn chrome-fill" id="doneIg" href="' + IG_URL + '" target="_blank" rel="noopener" style="border:0">DM Me Here</a><div><a class="sms-link" href="' + smsHref + '">Or text me — message already typed 📲</a></div>';
+    /* silent re-copy on tap so paste still works for whoever wants it */
     document.getElementById('doneIg').addEventListener('click', () => {
       try { navigator.clipboard.writeText(msg); } catch(e){}
     });
