@@ -473,7 +473,7 @@ function openLightbox(photos, car, start){
   const gal = document.getElementById('lbGal');
   const last = photos.length - 1;
   const idx = () => Math.round(gal.scrollLeft / gal.clientWidth);
-  const setCount = i => document.getElementById('lbCount').textContent = (i+1) + ' / ' + photos.length;
+  const setCount = i => { const el = document.getElementById('lbCount'); if (el) el.textContent = (i+1) + ' / ' + photos.length; };
   const go = d => {
     const t = Math.max(0, Math.min(last, idx() + d));
     gal.scrollLeft = t * gal.clientWidth;
