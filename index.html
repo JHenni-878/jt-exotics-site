@@ -630,8 +630,7 @@ function showDone(sent, name, contact, want, budget, city){
     const smsBody = 'Yo Jude! My name is ' + name + '.'
       + ' I\'m looking for ' + want + '.'
       + (city ? ' I\'m out in ' + city + '.' : '')
-      + (budget && budget !== 'Not sure yet' ? ' Working with about ' + budget + ' down.' : '')
-      + (contact ? ' Best contact for me: ' + contact + '.' : '');
+      + (budget && budget !== 'Not sure yet' ? ' Working with about ' + budget + ' down.' : '');
     const smsHref = 'sms:+18329956761?&body=' + encodeURIComponent(smsBody);
     fDone.innerHTML = '<div class="big">Got it 🤝</div><a class="ig-btn chrome-fill" href="' + smsHref + '" style="border:0">Text Me — Message Already Typed 📲</a><div><a class="sms-link" href="' + IG_URL + '" target="_blank" rel="noopener">Or DM me on Instagram</a></div>';
   }
