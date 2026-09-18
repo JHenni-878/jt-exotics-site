@@ -274,7 +274,7 @@ let INVENTORY = [
   {status:"AVAILABLE", car:"2025 Chevrolet Corvette C8",        down:8750,  monthly:1800, term:"Flexible — ask", miles:"35k",    city:"",            photos:[], note:"A 2025 Vette for less down than a Camry."},
   {status:"AVAILABLE", car:"2022 Cadillac Escalade Premium Luxury", down:13500, monthly:2495, term:"Flexible — ask", miles:"",   city:"",            photos:[], note:""},
   {status:"AVAILABLE", car:"2024 Mercedes-Benz GLE",            down:13500, monthly:2495, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:"Newest body style."},
-  {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Flexible — ask", miles:"36k",    city:"",            photos:[], note:""},
+  {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Flexible — ask", miles:"36k",    city:"",            photos:["range-rover-1.jpg","range-rover-3.jpg","range-rover-2.jpg","range-rover-4.jpg","range-rover-5.jpg"], note:""},
   {status:"AVAILABLE", car:"2025 Mercedes-Benz Sprinter 2500",  down:15995, monthly:2950, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:"Monthly includes commercial insurance."},
   {status:"AVAILABLE", car:"2021 Mercedes-Benz S580",           down:18500, monthly:2995, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:"The back seat is the point."},
   {status:"AVAILABLE", car:"2020 Mercedes-Benz G550",           down:18995, monthly:3000, term:"Flexible — ask", miles:"53k",    city:"",            photos:[], note:"Designo Matte Black."},
@@ -441,6 +441,9 @@ async function loadSheet(){
     const iS=col('status'), iC=col('car'), iD=col('down'), iM=col('monthly'),
           iT=col('term'), iMi=col('miles'), iCi=col('city'), iP=col('photos'), iN=col('notes');
     if (iC < 0) return;
+    /* keep baked-in photos for cars whose sheet row has an empty Photos cell */
+    const bakedPhotos = {};
+    INVENTORY.forEach(c => { if (c.photos && c.photos.length) bakedPhotos[c.car.trim().toLowerCase()] = c.photos; });
     const fresh = rows.slice(1).map(r => ({
       status:(r[iS]||'AVAILABLE').trim().toUpperCase(),
       car:(r[iC]||'').trim(),
@@ -449,7 +452,8 @@ async function loadSheet(){
       term:(iT>=0 && r[iT].trim()) ? r[iT].trim() : 'Flexible — ask',
       miles:(iMi>=0 ? r[iMi] : '').trim(),
       city:(iCi>=0 ? r[iCi] : '').trim(),
-      photos:(iP>=0 && r[iP].trim()) ? r[iP].split(',').map(s=>s.trim()).filter(Boolean) : [],
+      photos:(iP>=0 && r[iP].trim()) ? r[iP].split(',').map(s=>s.trim()).filter(Boolean)
+             : (bakedPhotos[(r[iC]||'').trim().toLowerCase()] || []),
       note:(iN>=0 ? r[iN] : '').trim()
     })).filter(c => c.car);
     if (fresh.length){ INVENTORY = fresh; render(); }
