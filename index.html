@@ -426,7 +426,7 @@ function openModal(i){
     const idx = () => Math.round(gal.scrollLeft / gal.clientWidth);
     const go = d => {
       const t = Math.max(0, Math.min(last, idx() + d));
-      gal.scrollTo({left: t * gal.clientWidth, behavior: 'smooth'});
+      gal.scrollLeft = t * gal.clientWidth; // instant jump — smooth scroll gets cancelled by scroll-snap
     };
     document.getElementById('gPrev').onclick = e => { e.stopPropagation(); go(-1); };
     document.getElementById('gNext').onclick = e => { e.stopPropagation(); go(1); };
