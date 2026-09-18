@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>JT Exotics — Available Vehicles</title>
+<meta name="description" content="Exotic & luxury vehicle leases. No credit check — your down payment is your approval. DM @JT_Exotics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0d; --card:#151518; --card-2:#1c1c21; --line:#26262c;
+    --text:#f4f4f5; --muted:#9a9aa3; --accent:#e6c15c; --green:#34d399;
+    --amber:#fbbf24; --red:#f87171;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.5; min-height:100vh;
+  }
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 16px}
+
+  /* Header */
+  header{padding:28px 0 10px; text-align:center}
+  .wordmark{font-weight:800; font-size:26px; letter-spacing:.28em; text-transform:uppercase}
+  .wordmark span{color:var(--accent)}
+  .tagline{color:var(--muted); font-size:13px; margin-top:6px; letter-spacing:.04em}
+  .ig-btn{
+    display:inline-flex; align-items:center; gap:8px; margin-top:14px;
+    background:linear-gradient(90deg,#f58529,#dd2a7b,#8134af,#515bd4);
+    color:#fff; font-weight:700; font-size:14px; padding:10px 20px; border-radius:999px;
+  }
+  .ig-btn svg{width:16px; height:16px; fill:#fff}
+
+  /* Filters */
+  .filters{
+    display:flex; gap:8px; overflow-x:auto; padding:18px 16px 6px;
+    max-width:1080px; margin:0 auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .filters::-webkit-scrollbar{display:none}
+  .chip{
+    flex:0 0 auto; padding:8px 16px; border-radius:999px; border:1px solid var(--line);
+    background:var(--card); color:var(--muted); font-size:13px; font-weight:700; cursor:pointer;
+    letter-spacing:.02em;
+  }
+  .chip.active{background:var(--text); color:#0b0b0d; border-color:var(--text)}
+  .count{color:var(--muted); font-size:12px; text-align:center; padding:8px 0 2px}
+
+  /* Grid */
+  .grid{
+    display:grid; grid-template-columns:1fr; gap:16px; padding:12px 0 40px;
+  }
+  @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    cursor:pointer; transition:transform .15s ease, border-color .15s ease; position:relative;
+  }
+  .card:active{transform:scale(.985)}
+  .card.sold{opacity:.55}
+  .photo{
+    aspect-ratio:16/10; width:100%; background:var(--card-2); position:relative; overflow:hidden;
+  }
+  .photo img{width:100%; height:100%; object-fit:cover; display:block}
+  .ph{
+    width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+    background:radial-gradient(120% 120% at 20% 0%, #232329 0%, #141417 60%, #0e0e11 100%);
+  }
+  .ph .mono{font-weight:800; font-size:34px; letter-spacing:.18em; color:#3a3a44}
+  .ph .lbl{font-size:11px; color:#4b4b56; letter-spacing:.14em; text-transform:uppercase}
+  .badge{
+    position:absolute; top:12px; left:12px; font-size:11px; font-weight:800; letter-spacing:.08em;
+    padding:5px 11px; border-radius:999px; text-transform:uppercase; backdrop-filter:blur(6px);
+  }
+  .badge.available{background:rgba(52,211,153,.15); color:var(--green); border:1px solid rgba(52,211,153,.4)}
+  .badge.pending{background:rgba(251,191,36,.15); color:var(--amber); border:1px solid rgba(251,191,36,.4)}
+  .badge.sold{background:rgba(248,113,113,.18); color:var(--red); border:1px solid rgba(248,113,113,.45)}
+  .citytag{
+    position:absolute; top:12px; right:12px; font-size:11px; font-weight:700;
+    padding:5px 11px; border-radius:999px; background:rgba(11,11,13,.6); color:#d8d8de;
+    border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(6px);
+  }
+  .body{padding:16px}
+  .name{font-weight:800; font-size:16.5px; letter-spacing:.01em}
+  .nums{display:flex; align-items:baseline; gap:8px; margin-top:8px; flex-wrap:wrap}
+  .down{font-size:22px; font-weight:800; color:var(--accent)}
+  .down small{font-size:12px; color:var(--muted); font-weight:700; letter-spacing:.05em}
+  .mo{font-size:14px; color:var(--muted); font-weight:700}
+  .meta{margin-top:8px; font-size:12.5px; color:var(--muted)}
+  .flex-line{margin-top:6px; font-size:12.5px; color:#c9c9d1; font-style:italic}
+
+  /* Modal */
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(5,5,7,.8); backdrop-filter:blur(8px);
+    display:none; z-index:50; overflow-y:auto; padding:20px 12px 40px;
+  }
+  .modal-bg.open{display:block}
+  .modal{
+    max-width:640px; margin:0 auto; background:var(--card); border:1px solid var(--line);
+    border-radius:22px; overflow:hidden; position:relative;
+  }
+  .close{
+    position:absolute; top:14px; right:14px; z-index:2; width:36px; height:36px; border-radius:999px;
+    background:rgba(11,11,13,.65); color:#fff; border:1px solid rgba(255,255,255,.15);
+    font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .gallery{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch}
+  .gallery > div{flex:0 0 100%; scroll-snap-align:center; aspect-ratio:16/10; background:var(--card-2)}
+  .gallery img{width:100%; height:100%; object-fit:cover; display:block}
+  .m-body{padding:22px}
+  .m-name{font-size:21px; font-weight:800}
+  .m-nums{display:flex; align-items:baseline; gap:10px; margin-top:10px; flex-wrap:wrap}
+  .m-down{font-size:30px; font-weight:800; color:var(--accent)}
+  .m-down small{font-size:13px; color:var(--muted); letter-spacing:.05em}
+  .m-mo{font-size:17px; color:var(--muted); font-weight:700}
+  .specs{margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .spec{background:var(--card-2); border:1px solid var(--line); border-radius:12px; padding:10px 12px}
+  .spec .k{font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; font-weight:700}
+  .spec .v{font-size:14px; font-weight:700; margin-top:3px}
+  .m-note{margin-top:14px; font-size:13px; color:var(--muted)}
+  .m-cta{
+    display:flex; align-items:center; justify-content:center; gap:9px; margin-top:20px;
+    background:linear-gradient(90deg,#f58529,#dd2a7b,#8134af,#515bd4);
+    color:#fff; font-weight:800; font-size:15.5px; padding:15px; border-radius:14px; width:100%;
+  }
+  .m-cta svg{width:18px; height:18px; fill:#fff}
+  .m-cta-sub{text-align:center; color:var(--muted); font-size:12px; margin-top:10px}
+
+  /* How it works + footer */
+  .how{
+    max-width:640px; margin:6px auto 0; padding:20px 16px 0; text-align:center;
+  }
+  .how h2{font-size:14px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:800}
+  .how p{color:var(--muted); font-size:13.5px; margin-top:8px}
+  footer{
+    text-align:center; padding:34px 16px 46px; color:#5b5b64; font-size:12px; border-top:1px solid var(--line); margin-top:10px;
+  }
+  footer .fm{font-weight:800; letter-spacing:.24em; text-transform:uppercase; color:#8a8a93; font-size:13px}
+  footer p{margin-top:8px}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="wordmark">JT <span>Exotics</span></div>
+  <div class="tagline">Exotic &amp; luxury leases · No credit check · Your down is your approval</div>
+  <a class="ig-btn" href="https://ig.me/m/jt_exotics" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.07 1.2.05 1.8.24 2.23.4.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.35 1.04.4 2.23.07 1.26.07 1.64.07 4.82s0 3.56-.07 4.82c-.05 1.2-.24 1.8-.4 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.04.35-2.23.4-1.26.07-1.64.07-4.82.07s-3.56 0-4.82-.07c-1.2-.05-1.8-.24-2.23-.4a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.35-1.04-.4-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.56.07-4.82c.05-1.2.24-1.8.4-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.04-.35 2.23-.4C8.4 2.2 8.8 2.2 12 2.2m0 1.8c-3.15 0-3.52 0-4.76.07-1.1.05-1.7.23-2.1.39-.53.2-.9.45-1.3.84-.39.4-.63.76-.84 1.3-.15.4-.34 1-.39 2.1-.06 1.24-.07 1.6-.07 4.75s0 3.52.07 4.76c.05 1.1.24 1.7.39 2.1.2.53.45.9.84 1.3.4.39.76.63 1.3.84.4.15 1 .34 2.1.39 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c1.1-.05 1.7-.24 2.1-.39.53-.2.9-.45 1.3-.84.39-.4.63-.76.84-1.3.15-.4.34-1 .39-2.1.06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.1-.24-1.7-.39-2.1a3.5 3.5 0 0 0-.84-1.3 3.5 3.5 0 0 0-1.3-.84c-.4-.15-1-.34-2.1-.39-1.24-.06-1.61-.07-4.76-.07M12 6.9a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2m0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6m6.5-2.1a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg>
+    DM @JT_Exotics
+  </a>
+</header>
+
+<nav class="filters" id="filters" aria-label="Filter by location"></nav>
+<div class="count" id="count"></div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+
+  <section class="how">
+    <h2>How it works</h2>
+    <p>You put money down, then a fixed monthly, and you drive it. No credit or income check — your down payment is your approval. Buyout option at the end on most vehicles. Insured enclosed transport available for out-of-state.</p>
+  </section>
+
+  <section class="how">
+    <h2>Who we are</h2>
+    <p>JT Exotics is an independent vehicle-leasing intermediary. We do not own the vehicles listed here — each is offered by its respective private owner or fleet partner within our network, which spans Texas, Arizona, Florida, California and beyond. We handle the introduction, coordinate terms, and manage the process from inquiry through delivery. All lease agreements are executed directly between the vehicle's owner and the client.</p>
+  </section>
+</main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modal"></div>
+</div>
+
+<footer>
+  <div class="fm">JT Exotics</div>
+  <p>Texas · Arizona · Florida · California — delivery available</p>
+  <p>Vehicles listed on behalf of their respective owners and fleet partners. JT Exotics acts solely as an intermediary. Availability and terms subject to change — DM to confirm.</p>
+</footer>
+
+<script>
+/* ============ CONFIG ============ */
+/* Inventory Google Sheet (JT Exotics Inventory, Jude's Drive).
+   Works once the sheet is shared "Anyone with link: Viewer".
+   If unreachable, the baked-in inventory below is shown instead. */
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1vtZC2DAg-97oBHwdiBZUv8Yjwym_aI-IlBi7V7FS40I/gviz/tq?tqx=out:csv";
+
+const IG_URL = "https://ig.me/m/jt_exotics";
+
+/* ============ BAKED INVENTORY (fallback / v1) ============
+   status: AVAILABLE | PENDING | SOLD
+   photos: array of filenames inside /img/  (empty = placeholder) */
+let INVENTORY = [
+  {status:"AVAILABLE", car:"2025 Chevrolet Corvette C8",        down:8750,  monthly:1800, term:"Flexible — ask", miles:"35k",    city:"",            photos:[], note:"A 2025 Vette for less down than a Camry."},
+  {status:"AVAILABLE", car:"2022 Cadillac Escalade Premium Luxury", down:13500, monthly:2495, term:"Flexible — ask", miles:"",   city:"",            photos:[], note:""},
+  {status:"AVAILABLE", car:"2024 Mercedes-Benz GLE",            down:13500, monthly:2495, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:"Newest body style."},
+  {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Flexible — ask", miles:"36k",    city:"",            photos:[], note:""},
+  {status:"AVAILABLE", car:"2025 Mercedes-Benz Sprinter 2500",  down:15995, monthly:2950, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:"Monthly includes commercial insurance."},
+  {status:"AVAILABLE", car:"2021 Mercedes-Benz S580",           down:18500, monthly:2995, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:"The back seat is the point."},
+  {status:"AVAILABLE", car:"2020 Mercedes-Benz G550",           down:18995, monthly:3000, term:"Flexible — ask", miles:"53k",    city:"",            photos:[], note:"Designo Matte Black."},
+  {status:"AVAILABLE", car:"2024 Corvette Z06 2LT Convertible", down:25995, monthly:2800, term:"Flexible — ask", miles:"3k",     city:"Phoenix, AZ", photos:[], note:""},
+  {status:"AVAILABLE", car:"2022 Lamborghini Urus",             down:24995, monthly:4400, term:"Flexible — ask", miles:"37k",    city:"",            photos:[], note:""},
+  {status:"AVAILABLE", car:"2023 Mercedes-Maybach GLS 600",     down:25000, monthly:3500, term:"Flexible — ask", miles:"",       city:"",            photos:[], note:""},
+  {status:"AVAILABLE", car:"2025 Corvette Z06 3LZ Convertible", down:29000, monthly:2900, term:"Flexible — ask", miles:"15k",    city:"Boston, MA",  photos:[], note:""},
+  {status:"AVAILABLE", car:"2022 Mercedes-AMG G63",             down:30995, monthly:3900, term:"Flexible — ask", miles:"19k",    city:"Phoenix, AZ", photos:[], note:""},
+  {status:"AVAILABLE", car:"2020 Lamborghini Urus",             down:30999, monthly:4415, term:"Flexible — ask", miles:"40k",    city:"Phoenix, AZ", photos:[], note:""},
+  {status:"AVAILABLE", car:"2020 Lamborghini Urus — 1-of-1 Build", down:36495, monthly:3500, term:"Flexible — ask", miles:"68k", city:"",            photos:[], note:"One-of-one spec."},
+  {status:"AVAILABLE", car:"2021 Rolls-Royce Cullinan",         down:41499, monthly:6250, term:"Flexible — ask", miles:"20k",    city:"Phoenix, AZ", photos:[], note:""},
+  {status:"AVAILABLE", car:"2020 McLaren 720S Spyder",          down:49000, monthly:6000, term:"6 or 12 months · 7,500 mi/yr", miles:"14k", city:"Phoenix, AZ", photos:[], note:""},
+  {status:"AVAILABLE", car:"2025 Lamborghini Urus SE",          down:64995, monthly:7600, term:"Flexible — ask", miles:"1,132",  city:"",            photos:[], note:"Basically new."}
+];
+
+/* ============ RENDERING ============ */
+const grid = document.getElementById('grid');
+const filtersEl = document.getElementById('filters');
+const countEl = document.getElementById('count');
+const modalBg = document.getElementById('modalBg');
+const modal = document.getElementById('modal');
+let activeCity = "All";
+
+function money(v){
+  if (v === null || v === undefined || v === "") return "Ask";
+  const n = parseInt(String(v).replace(/[^0-9]/g,''), 10);
+  return isNaN(n) ? String(v) : "$" + n.toLocaleString("en-US");
+}
+function esc(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function monogram(car){
+  const words = String(car).replace(/[^A-Za-z0-9 ]/g,'').split(' ').filter(w => w && !/^\d+$/.test(w));
+  return words.slice(0,2).map(w => w[0]).join('').toUpperCase() || 'JT';
+}
+function statusRank(s){ return s==="AVAILABLE"?0 : s==="PENDING"?1 : 2; }
+function badge(s){
+  if (s==="PENDING") return '<span class="badge pending">Deposit Pending</span>';
+  if (s==="SOLD")    return '<span class="badge sold">Sold</span>';
+  return '<span class="badge available">Available</span>';
+}
+function photoHTML(c){
+  if (c.photos && c.photos.length){
+    return '<img src="img/' + esc(c.photos[0]) + '" alt="' + esc(c.car) + '" loading="lazy">';
+  }
+  return '<div class="ph"><div class="mono">' + esc(monogram(c.car)) + '</div><div class="lbl">Photos on request</div></div>';
+}
+
+function renderFilters(){
+  const cities = [...new Set(INVENTORY.filter(c => c.status !== "SOLD").map(c => c.city).filter(Boolean))].sort();
+  const chips = ["All", ...cities];
+  if (!chips.includes(activeCity)) activeCity = "All";
+  filtersEl.innerHTML = chips.map(c =>
+    '<button class="chip' + (c===activeCity?' active':'') + '" data-city="' + esc(c) + '">' + esc(c) + '</button>'
+  ).join('');
+  filtersEl.querySelectorAll('.chip').forEach(b => b.onclick = () => { activeCity = b.dataset.city; render(); });
+}
+
+function render(){
+  renderFilters();
+  const list = INVENTORY
+    .filter(c => activeCity==="All" ? true : c.city===activeCity)
+    .sort((a,b) => statusRank(a.status)-statusRank(b.status) ||
+                   (parseInt(String(a.down).replace(/\D/g,''))||9e9) - (parseInt(String(b.down).replace(/\D/g,''))||9e9));
+  const avail = list.filter(c => c.status !== "SOLD").length;
+  countEl.textContent = avail + " vehicle" + (avail===1?"":"s") + " available" + (activeCity!=="All" ? " · " + activeCity : "");
+  grid.innerHTML = list.map((c,i) => `
+    <article class="card ${c.status==='SOLD'?'sold':''}" data-i="${INVENTORY.indexOf(c)}">
+      <div class="photo">${photoHTML(c)}${badge(c.status)}${c.city ? '<span class="citytag">'+esc(c.city)+'</span>' : ''}</div>
+      <div class="body">
+        <div class="name">${esc(c.car)}</div>
+        <div class="nums">
+          <span class="down">${money(c.down)} <small>DOWN</small></span>
+          <span class="mo">${money(c.monthly)}/mo</span>
+        </div>
+        <div class="meta">${esc(c.term)}${c.miles ? ' · ' + esc(c.miles) + ' miles' : ''}</div>
+        ${c.note ? '<div class="flex-line">'+esc(c.note)+'</div>' : ''}
+      </div>
+    </article>`).join('');
+  grid.querySelectorAll('.card').forEach(el => el.onclick = () => openModal(+el.dataset.i));
+}
+
+function openModal(i){
+  const c = INVENTORY[i];
+  const gallery = (c.photos && c.photos.length)
+    ? c.photos.map(p => '<div><img src="img/'+esc(p)+'" alt="'+esc(c.car)+'"></div>').join('')
+    : '<div>'+photoHTML(c)+'</div>';
+  modal.innerHTML = `
+    <button class="close" id="closeBtn" aria-label="Close">✕</button>
+    <div class="gallery">${gallery}</div>
+    <div class="m-body">
+      <div>${badge(c.status)}</div>
+      <div class="m-name" style="margin-top:10px">${esc(c.car)}</div>
+      <div class="m-nums">
+        <span class="m-down">${money(c.down)} <small>DOWN</small></span>
+        <span class="m-mo">${money(c.monthly)}/mo</span>
+      </div>
+      <div class="specs">
+        <div class="spec"><div class="k">Term</div><div class="v">${esc(c.term)}</div></div>
+        <div class="spec"><div class="k">Miles</div><div class="v">${c.miles ? esc(c.miles) : 'Ask'}</div></div>
+        <div class="spec"><div class="k">Location</div><div class="v">${c.city ? esc(c.city) : 'Ask'}</div></div>
+        <div class="spec"><div class="k">Approval</div><div class="v">No credit check</div></div>
+      </div>
+      ${c.note ? '<div class="m-note">'+esc(c.note)+'</div>' : ''}
+      <a class="m-cta" href="${IG_URL}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.07 1.2.05 1.8.24 2.23.4.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.35 1.04.4 2.23.07 1.26.07 1.64.07 4.82s0 3.56-.07 4.82c-.05 1.2-.24 1.8-.4 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.04.35-2.23.4-1.26.07-1.64.07-4.82.07s-3.56 0-4.82-.07c-1.2-.05-1.8-.24-2.23-.4a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.35-1.04-.4-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.56.07-4.82c.05-1.2.24-1.8.4-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.04-.35 2.23-.4C8.4 2.2 8.8 2.2 12 2.2"/></svg>
+        DM @JT_Exotics about this car
+      </a>
+      <div class="m-cta-sub">Mention: ${esc(c.car)}</div>
+    </div>`;
+  modalBg.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('closeBtn').onclick = closeModal;
+}
+function closeModal(){ modalBg.classList.remove('open'); document.body.style.overflow=''; }
+modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ============ GOOGLE SHEET SYNC ============ */
+function parseCSV(text){
+  const rows = []; let row = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++){
+    const ch = text[i];
+    if (inQ){
+      if (ch === '"'){ if (text[i+1] === '"'){ field += '"'; i++; } else inQ = false; }
+      else field += ch;
+    } else if (ch === '"') inQ = true;
+    else if (ch === ','){ row.push(field); field = ''; }
+    else if (ch === '\n' || ch === '\r'){
+      if (ch === '\r' && text[i+1] === '\n') i++;
+      row.push(field); field = '';
+      if (row.some(f => f.trim() !== '')) rows.push(row);
+      row = [];
+    } else field += ch;
+  }
+  row.push(field);
+  if (row.some(f => f.trim() !== '')) rows.push(row);
+  return rows;
+}
+
+async function loadSheet(){
+  if (!SHEET_CSV_URL) return;
+  try{
+    const res = await fetch(SHEET_CSV_URL, {cache:'no-store'});
+    if (!res.ok) return;
+    const rows = parseCSV(await res.text());
+    if (rows.length < 2) return;
+    const head = rows[0].map(h => h.trim().toLowerCase());
+    const col = name => head.indexOf(name);
+    const iS=col('status'), iC=col('car'), iD=col('down'), iM=col('monthly'),
+          iT=col('term'), iMi=col('miles'), iCi=col('city'), iP=col('photos'), iN=col('notes');
+    if (iC < 0) return;
+    const fresh = rows.slice(1).map(r => ({
+      status:(r[iS]||'AVAILABLE').trim().toUpperCase(),
+      car:(r[iC]||'').trim(),
+      down:(iD>=0 ? r[iD] : '').trim(),
+      monthly:(iM>=0 ? r[iM] : '').trim(),
+      term:(iT>=0 && r[iT].trim()) ? r[iT].trim() : 'Flexible — ask',
+      miles:(iMi>=0 ? r[iMi] : '').trim(),
+      city:(iCi>=0 ? r[iCi] : '').trim(),
+      photos:(iP>=0 && r[iP].trim()) ? r[iP].split(',').map(s=>s.trim()).filter(Boolean) : [],
+      note:(iN>=0 ? r[iN] : '').trim()
+    })).filter(c => c.car);
+    if (fresh.length){ INVENTORY = fresh; render(); }
+  } catch(e){ /* sheet unreachable — baked inventory stays up */ }
+}
+
+render();
+loadSheet();
+</script>
+</body>
+</html>
