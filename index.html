@@ -319,9 +319,8 @@
       View Available Inventory
       <svg viewBox="0 0 24 24"><path d="M12 16.5 4.5 9l1.4-1.4L12 13.7l6.1-6.1L19.5 9z"/></svg>
     </a>
-    <a class="ig-btn" href="https://ig.me/m/exoticsbyjt" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.07 1.2.05 1.8.24 2.23.4.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.35 1.04.4 2.23.07 1.26.07 1.64.07 4.82s0 3.56-.07 4.82c-.05 1.2-.24 1.8-.4 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.04.35-2.23.4-1.26.07-1.64.07-4.82.07s-3.56 0-4.82-.07c-1.2-.05-1.8-.24-2.23-.4a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.35-1.04-.4-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.56.07-4.82c.05-1.2.24-1.8.4-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.04-.35 2.23-.4C8.4 2.2 8.8 2.2 12 2.2m0 4.7a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2m0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6m6.5-2.1a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg>
-      DM @ExoticsByJT
+    <a class="ig-btn" href="sms:+18329956761?&body=Yo%20Jude!%20Came%20from%20your%20site%2C%20looking%20at%20the%20inventory.">
+      📲 Text Me
     </a>
   </div>
 </header>
@@ -378,6 +377,7 @@
 <footer>
   <div class="fm chrome">JT Exotics</div>
   <p>Texas · Arizona · Florida · California — delivery available</p>
+  <p>Instagram: <a href="https://instagram.com/exoticsbyjt" target="_blank" rel="noopener" style="text-decoration:underline; text-underline-offset:3px">@exoticsbyjt</a></p>
   <p>Vehicles listed on behalf of their respective owners and fleet partners. JT Exotics acts solely as an intermediary.<br>Availability and terms subject to change — DM to confirm.</p>
 </footer>
 
@@ -389,6 +389,7 @@
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1JdXCV43l9LTBkZpHnSqv3rE7XFT3qaYMopGLRacW9e8/gviz/tq?tqx=out:csv";
 
 const IG_URL = "https://ig.me/m/exoticsbyjt";
+const smsLink = body => 'sms:+18329956761?&body=' + encodeURIComponent(body);
 
 /* Discord webhook for inquiry pings (channel is private to Jude; regenerate the
    webhook in Discord if it ever gets spammed and paste the new URL here). */
@@ -532,11 +533,10 @@ function openModal(i){
         <div class="spec"><div class="k">Shipping</div><div class="v">Available — insured enclosed transport</div></div>
       </div>
       ${c.note ? '<div class="m-note">'+esc(c.note)+'</div>' : ''}
-      <a class="m-cta chrome-fill" href="${IG_URL}" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.07 1.2.05 1.8.24 2.23.4.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.35 1.04.4 2.23.07 1.26.07 1.64.07 4.82s0 3.56-.07 4.82c-.05 1.2-.24 1.8-.4 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.04.35-2.23.4-1.26.07-1.64.07-4.82.07s-3.56 0-4.82-.07c-1.2-.05-1.8-.24-2.23-.4a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.43-.35-1.04-.4-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.56.07-4.82c.05-1.2.24-1.8.4-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.04-.35 2.23-.4C8.4 2.2 8.8 2.2 12 2.2m0 4.7a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2m0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6m6.5-2.1a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg>
-        DM @ExoticsByJT about this car
+      <a class="m-cta chrome-fill" href="${smsLink('Yo Jude! Saw the ' + c.car + ' on your site. Is it still available?')}">
+        Text Me About This Car 📲
       </a>
-      <div class="m-cta-sub">Mention: ${esc(c.car)}</div>
+      <div><a class="sms-link" href="${IG_URL}" target="_blank" rel="noopener">Or DM @ExoticsByJT on Instagram</a></div>
     </div>`;
   modalBg.classList.add('open');
   document.body.style.overflow = 'hidden';
