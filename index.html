@@ -105,6 +105,10 @@
     color:#0a0a0b; border-color:transparent;
   }
   .count{color:var(--dim); font-size:11.5px; text-align:center; padding:14px 0 4px; letter-spacing:.14em; text-transform:uppercase}
+  .closed{margin-top:30px; padding-top:28px; border-top:1px solid var(--line)}
+  .closed-head{text-align:center; font-size:11px; letter-spacing:.34em; text-transform:uppercase; font-weight:800; padding-left:.34em}
+  .closed-sub{color:var(--dim); font-size:11.5px; text-align:center; padding:8px 0 0; letter-spacing:.14em; text-transform:uppercase}
+  .closed-grid{padding-top:12px}
 
   /* Grid */
   .grid{display:grid; grid-template-columns:1fr; gap:14px; padding:10px 0 44px}
@@ -335,6 +339,11 @@
   <main class="wrap">
     <div class="grid" id="grid"></div>
     <a class="req-banner" href="#inquiry"><b>Don't see your car?</b> Tell us what you're hunting and we'll source it →</a>
+    <div class="closed" id="closed" hidden>
+      <div class="closed-head chrome">Recently Closed</div>
+      <div class="closed-sub" id="closedCount"></div>
+      <div class="grid closed-grid" id="closedGrid"></div>
+    </div>
   </main>
 </section>
 
@@ -400,7 +409,7 @@ const DISCORD_WEBHOOK_URL = "";
 let INVENTORY = [
   {status:"AVAILABLE", car:"2025 Chevrolet Corvette C8",        down:10000,  monthly:1800, term:"6 or 12 months · Lease to own", miles:"35k", city:"Miami, FL",   photos:["c8-1.jpg","c8-2.jpg","c8-3.jpg","c8-4.jpg"], note:""},
   {status:"AVAILABLE", car:"2023 Range Rover",                  down:13495, monthly:2500, term:"Up to 12 months", miles:"36k",  city:"Phoenix, AZ", photos:["range-rover-1.jpg","range-rover-3.jpg","range-rover-2.jpg","range-rover-4.jpg","range-rover-5.jpg"], note:""},
-  {status:"AVAILABLE", car:"2024 Mercedes-Benz GLE",            down:14000, monthly:2495, term:"12 months · 10,000 mi/yr", miles:"49k", city:"", photos:["gle-1.jpg","gle-2.jpg","gle-4.jpg","gle-5.jpg","gle-6.jpg","gle-7.jpg","gle-3.jpg"], note:"Extended lease or buyout option at end."},
+  {status:"SOLD",      car:"2024 Mercedes-Benz GLE",            down:14000, monthly:2495, term:"12 months · 10,000 mi/yr", miles:"49k", city:"", photos:["gle-1.jpg","gle-2.jpg","gle-4.jpg","gle-5.jpg","gle-6.jpg","gle-7.jpg","gle-3.jpg"], note:"Extended lease or buyout option at end."},
   {status:"AVAILABLE", car:"2025 Mercedes-Benz Sprinter 2500",  down:15995, monthly:2950, term:"6 or 12 months · Lease to own", miles:"29k", city:"", photos:["sprinter-1.jpg","sprinter-2.jpg","sprinter-3.jpg","sprinter-4.jpg"], note:"Monthly includes GEICO commercial insurance."},
   {status:"PENDING", car:"2022 Lamborghini Urus",             down:24995, monthly:4400, term:"6 or 12 months · Lease to own", miles:"37k", city:"Miami, FL", photos:["urus22-2.jpg","urus22-1.jpg","urus22-3.jpg","urus22-4.jpg","urus22-5.jpg","urus22-6.jpg"], note:"White on red."},
   {status:"AVAILABLE", car:"2024 Corvette Z06 2LT Convertible", down:25995, monthly:2800, term:"6 or 12 months · Lease to own", miles:"3k",  city:"Phoenix, AZ", photos:["z06-1.jpg","z06-2.jpg","z06-3.jpg","z06-4.jpg","z06-5.jpg","z06-6.jpg"], note:""},
@@ -424,6 +433,9 @@ let INVENTORY = [
 
 /* ============ STATE + HELPERS ============ */
 const grid = document.getElementById('grid');
+const closedEl = document.getElementById('closed');
+const closedCountEl = document.getElementById('closedCount');
+const closedGrid = document.getElementById('closedGrid');
 const cityChipsEl = document.getElementById('cityChips');
 const budgetChipsEl = document.getElementById('budgetChips');
 const countEl = document.getElementById('count');
@@ -485,11 +497,12 @@ function render(){
   const list = INVENTORY
     .filter(c => (activeCity==="All" ? true : c.city===activeCity) && bTest(downNum(c)))
     .sort((a,b) => statusRank(a.status)-statusRank(b.status) || downNum(a)-downNum(b));
-  const avail = list.filter(c => c.status !== "SOLD").length;
-  countEl.textContent = avail + " vehicle" + (avail===1?"":"s") + " available";
+  const live = list.filter(c => c.status !== "SOLD");
+  const closed = INVENTORY.filter(c => c.status === "SOLD").sort((a,b) => downNum(b)-downNum(a));
+  countEl.textContent = live.length + " vehicle" + (live.length===1?"":"s") + " available";
   const stamp = s => s==='PENDING' ? '<div class="stamp"><span>Pending</span></div>'
                    : s==='SOLD'    ? '<div class="stamp"><span>Sold</span></div>' : '';
-  grid.innerHTML = list.map(c => `
+  const cardHTML = c => `
     <article class="card ${c.status==='SOLD'?'sold':''} ${c.status==='PENDING'?'pending':''}" data-i="${INVENTORY.indexOf(c)}">
       <div class="photo">${photoHTML(c)}${stamp(c.status)}${badge(c.status)}${c.city ? '<span class="citytag">'+esc(c.city)+'</span>' : ''}</div>
       <div class="body">
@@ -501,8 +514,13 @@ function render(){
         <div class="meta"><span>${esc(c.term)}</span>${c.miles ? '<b>·</b><span>'+esc(c.miles)+' miles</span>' : ''}<b>·</b><span>Shipping available</span></div>
         ${c.note ? '<div class="note">'+esc(c.note)+'</div>' : ''}
       </div>
-    </article>`).join('');
+    </article>`;
+  grid.innerHTML = live.map(cardHTML).join('');
   grid.querySelectorAll('.card').forEach(el => el.onclick = () => openModal(+el.dataset.i));
+  closedEl.hidden = !closed.length;
+  closedCountEl.textContent = closed.length + " vehicle" + (closed.length===1?"":"s") + " closed";
+  closedGrid.innerHTML = closed.map(cardHTML).join('');
+  closedGrid.querySelectorAll('.card').forEach(el => el.onclick = () => openModal(+el.dataset.i));
 }
 
 function openModal(i){
