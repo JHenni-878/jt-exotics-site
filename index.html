@@ -168,6 +168,12 @@
   .down{font-size:23px; font-weight:800; letter-spacing:.01em}
   .down-lbl{font-size:9.5px; color:var(--dim); font-weight:800; letter-spacing:.2em; text-transform:uppercase}
   .mo{font-size:13.5px; color:var(--muted); font-weight:600; margin-left:auto}
+  .saleline{margin-top:7px; font-size:12px; font-weight:700; letter-spacing:.04em; color:var(--muted);
+    display:flex; align-items:baseline; gap:7px}
+  .saleline .amt{color:var(--text); font-weight:800; font-size:14px}
+  .saleline .tag{font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); font-weight:800}
+  .m-saleline{margin-top:4px; font-size:14px; color:var(--muted); font-weight:600}
+  .m-saleline .amt{color:var(--text); font-weight:800}
   .meta{
     margin-top:10px; padding-top:10px; border-top:1px solid var(--line);
     font-size:11.5px; color:var(--muted); letter-spacing:.04em;
@@ -427,6 +433,7 @@ let INVENTORY = [
   {status:"AVAILABLE", sale:true, car:"2015 Porsche 911 Turbo S Cabriolet", down:149900, monthly:"", term:"For sale", miles:"26k", city:"Dallas, TX", photos:["911ts-2.jpg","911ts-3.jpg","911ts-1.jpg","911ts-4.jpg","911ts-6.jpg","911ts-7.jpg","911ts-8.jpg","911ts-5.jpg"], note:"White on red · clean Carfax · AWD · Fabspeed exhaust + intake · carbon fiber throughout · full front PPF · just serviced, new battery."},
   {status:"SOLD", sale:true, car:"2024 RAM 1500 TRX Final Edition", down:129995, monthly:"", term:"For sale", miles:"17k", city:"Miami, FL", photos:["trx-1.jpg","trx-2.jpg","trx-3.jpg","trx-4.jpg","trx-5.jpg","trx-6.jpg","trx-7.jpg","trx-8.jpg","trx-9.jpg"], note:"Omega REX build by SoFlo Customs — $39,000 in the build alone \u00b7 702 hp supercharged Hellcat V8 \u00b7 Final Edition, the last year they made the TRX \u00b7 TRX Level 2 Equipment Group \u00b7 dual-pane panoramic sunroof \u00b7 Mopar off-road running boards \u00b7 Delmonico Red Pearlcoat \u00b7 $125,215 window sticker before the build."},
   {status:"AVAILABLE", sale:true, car:"2026 Porsche 911 Carrera GTS Cabriolet", down:229995, monthly:"", term:"For sale", miles:"2,321", city:"Miami, FL", photos:["gts-1.jpg","gts-2.jpg","gts-3.jpg","gts-4.jpg","gts-5.jpg","gts-6.jpg","gts-7.jpg","gts-8.jpg"], note:"$232,460 window sticker \u00b7 Slate Grey Neo \u00b7 Club Leather interior in Truffle Brown \u00b7 Porsche Dynamic Chassis Control (PDCC) \u00b7 front axle lift system \u00b7 SportDesign package in carbon fibre \u00b7 Premium package with Remote ParkAssist \u00b7 Burmester high-end surround sound \u00b7 H\u0026R lowering springs."},
+  {status:"AVAILABLE", car:"2023 Ford Hennessey VelociRaptor 600", down:15300, monthly:2400, salePrice:74995, term:"6 or 12 months \u00b7 Lease to own", miles:"61k", city:"Miami, FL", photos:["raptor-1.jpg","raptor-2.jpg","raptor-3.jpg","raptor-4.jpg","raptor-5.jpg","raptor-6.jpg","raptor-7.jpg","raptor-8.jpg","raptor-9.jpg"], note:"Hennessey VelociRaptor 600 \u2014 serial #088, built in Texas \u00b7 black on black \u00b7 600 hp supercharged \u00b7 available to lease or buy outright. Or $20,400 down / $1,600 a month."},
   {status:"AVAILABLE", car:"2021 Mercedes-Benz S580",           down:11000, monthly:1800, term:"6 or 12 months · Lease to own", miles:"40k", city:"", photos:["s580-1.jpg","s580-2.jpg"], note:""},
   {status:"AVAILABLE", car:"2023 Mercedes-AMG SL43",            down:10995, monthly:1650, term:"6 or 12 months · Lease to own", miles:"23k", city:"", photos:["sl43-1.jpg","sl43-2.jpg","sl43-3.jpg"], note:"AMG convertible · black soft top."},
   {status:"AVAILABLE", car:"2025 BMW M2",                       down:11000, monthly:1700, term:"6 or 12 months · Lease to own", miles:"40k", city:"", photos:["m2-1.jpg","m2-2.jpg"], note:"Matte grey."},
@@ -516,6 +523,7 @@ function render(){
                    : `<span class="down chrome">${money(c.down)}</span><span class="down-lbl">down</span>
           <span class="mo">${money(c.monthly)}/mo</span>`}
         </div>
+        ${(!c.sale && c.salePrice) ? '<div class="saleline"><span class="tag">or buy it</span><span class="amt">'+money(c.salePrice)+'</span></div>' : ''}
         <div class="meta"><span>${esc(c.term)}</span>${c.miles ? '<b>·</b><span>'+esc(c.miles)+' miles</span>' : ''}<b>·</b><span>Shipping available</span></div>
         ${c.note ? '<div class="note">'+esc(c.note)+'</div>' : ''}
       </div>
@@ -552,11 +560,13 @@ function openModal(i){
                  : `<span class="m-down chrome">${money(c.down)}</span><span class="down-lbl">down</span>
         <span class="m-mo">${money(c.monthly)}/mo</span>`}
       </div>
+      ${(!c.sale && c.salePrice) ? '<div class="m-saleline">Or buy it outright — <span class="amt">'+money(c.salePrice)+'</span></div>' : ''}
       <div class="specs">
         <div class="spec"><div class="k">${c.sale ? 'Listing' : 'Term'}</div><div class="v">${esc(c.term)}</div></div>
         <div class="spec"><div class="k">Miles</div><div class="v">${c.miles ? esc(c.miles) : 'Ask'}</div></div>
         <div class="spec"><div class="k">Location</div><div class="v">${c.city ? esc(c.city) : 'Ask'}</div></div>
         <div class="spec"><div class="k">${c.sale ? 'Purchase' : 'Approval'}</div><div class="v">${c.sale ? 'Outright sale — ask about financing' : 'No credit check'}</div></div>
+        ${(!c.sale && c.salePrice) ? '<div class="spec"><div class="k">Also for sale</div><div class="v">'+money(c.salePrice)+' outright — lease or buy, your call</div></div>' : ''}
         <div class="spec"><div class="k">Shipping</div><div class="v">Available — insured enclosed transport</div></div>
       </div>
       ${c.note ? '<div class="m-note">'+esc(c.note)+'</div>' : ''}
@@ -715,7 +725,8 @@ async function loadSheet(){
     const head = rows[0].map(h => h.trim().toLowerCase());
     const col = name => head.indexOf(name);
     const iS=col('status'), iC=col('car'), iD=col('down'), iM=col('monthly'),
-          iT=col('term'), iMi=col('miles'), iCi=col('city'), iP=col('photos'), iN=col('notes');
+          iT=col('term'), iMi=col('miles'), iCi=col('city'), iP=col('photos'), iN=col('notes'),
+          iSale=col('sale');
     if (iC < 0) return;
     /* keep baked-in photos for cars whose sheet row has an empty Photos cell */
     const bakedPhotos = {};
@@ -731,7 +742,8 @@ async function loadSheet(){
       photos:(iP>=0 && r[iP].trim()) ? r[iP].split(',').map(s=>s.trim()).filter(Boolean)
              : (bakedPhotos[(r[iC]||'').trim().toLowerCase()] || []),
       note:(iN>=0 ? r[iN] : '').trim(),
-      sale:/^for sale/i.test((iT>=0 ? r[iT] : '').trim())
+      sale:/^for sale/i.test((iT>=0 ? r[iT] : '').trim()),
+      salePrice:(iSale>=0 ? (r[iSale]||'').trim() : '')
     })).filter(c => c.car);
     if (fresh.length){ INVENTORY = fresh; render(); }
   } catch(e){ /* sheet unreachable — baked inventory stays up */ }
