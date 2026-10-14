@@ -527,7 +527,6 @@ let INVENTORY = [
   {status:"AVAILABLE", car:"2023 Mansory Rolls-Royce Cullinan", down:80000, monthly:7500, salePrice:399995, term:"6 or 12 months \u00b7 Lease to own", miles:"7,257", city:"Miami, FL", photos:["mansory-1.jpg","mansory-2.jpg","mansory-3.jpg","mansory-4.jpg","mansory-5.jpg","mansory-6.jpg","mansory-7.jpg","mansory-8.jpg","mansory-9.jpg","mansory-10.jpg"], note:"$458,800 window sticker \u00b7 authentic Mansory build, over $100,000 invested \u00b7 previously celebrity owned \u00b7 Asanti 24\u2033 one-of-one custom forged wheels \u00b7 illuminated front grille \u00b7 Tempeste Grey over Forge Blue with white piping \u00b7 rear captain seats \u00b7 rear refrigerator with crystal champagne flutes \u00b7 lease it or buy it outright."},
   {status:"COMING SOON", car:"2023 Mercedes-AMG G63", down:"", monthly:"", term:"6 or 12 months \u00b7 Lease to own", miles:"42k", city:"", photos:["g63olive-1.jpg","g63olive-2.jpg","g63olive-3.jpg"], note:"Available in about 2 weeks \u00b7 Dark Olive over Tartufo \u00b7 full matte PPF \u00b7 oversized tires. Numbers on request."},
   {status:"AVAILABLE", car:"2021 Mercedes-Benz S580",           down:11000, monthly:1800, term:"6 or 12 months · Lease to own", miles:"40k", city:"", photos:["s580-1.jpg","s580-2.jpg"], note:""},
-  {status:"AVAILABLE", car:"2023 Mercedes-AMG SL43",            down:7995, monthly:1600, term:"6 or 12 months · Lease to own", miles:"23k", city:"", photos:["sl43-1.jpg","sl43-2.jpg","sl43-3.jpg"], note:"AMG convertible · black soft top."},
   {status:"AVAILABLE", car:"2025 BMW M2",                       down:11000, monthly:1700, term:"6 or 12 months · Lease to own", miles:"40k", city:"", photos:["m2-1.jpg","m2-2.jpg"], note:"Matte grey."},
   {status:"AVAILABLE", car:"2018 Bentley Bentayga",             down:16000, monthly:2500, term:"6 or 12 months · Lease to own", miles:"70k", city:"", photos:["bentayga-1.jpg","bentayga-2.jpg","bentayga-3.jpg","bentayga-4.jpg"], note:""},
   {status:"AVAILABLE", car:"2023 Cadillac CT5-V",               down:16000, monthly:2000, term:"6 or 12 months · Lease to own", miles:"30k", city:"", photos:["ct5v-1.jpg","ct5v-2.jpg","ct5v-3.jpg"], note:""},
@@ -551,9 +550,9 @@ const modal = document.getElementById('modal');
    sale-only (Term "For sale") / lease-only / lease + sale price / SOLD. */
 const TABS = [
   {id:'all',   label:'All'},
-  {id:'sale',  label:'For Sale'},
-  {id:'lease', label:'Lease'},
   {id:'both',  label:'Lease & Buy'},
+  {id:'lease', label:'Lease'},
+  {id:'sale',  label:'For Sale Only'},
   {id:'soon',  label:'Coming Soon'},
   {id:'sold',  label:'Sold'}
 ];
