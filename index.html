@@ -172,7 +172,7 @@
   .empty .row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
 
   /* Grid */
-  .grid{display:grid; grid-template-columns:1fr; gap:14px; padding:10px 0 44px}
+  .grid{display:grid; grid-template-columns:1fr; gap:14px; padding:10px 0 44px; min-height:60vh; align-content:start}
   @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
   @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
 
@@ -625,6 +625,7 @@ function renderTabs(){
     activeTab = b.dataset.v;
     try{ localStorage.setItem('jt.tab', activeTab); history.replaceState(null, '', '#' + activeTab); }catch(e){}
     render();
+    document.getElementById('inventory').scrollIntoView({behavior:'smooth', block:'start'});
   });
 }
 function paintSlider(inp, val){
