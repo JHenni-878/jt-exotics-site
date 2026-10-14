@@ -85,30 +85,91 @@
     font-weight:800; padding-left:.34em; margin-bottom:4px;
   }
 
-  /* Filters */
-  .filterbar{max-width:1120px; margin:18px auto 0; padding:0 18px}
-  .frow{display:flex; align-items:center; gap:10px; margin-bottom:10px}
-  .flabel{
-    flex:0 0 74px; font-size:9.5px; font-weight:800; letter-spacing:.22em;
-    text-transform:uppercase; color:var(--dim); text-align:right;
+  /* Filters — sticky bar: listing-type tabs + lease sliders */
+  .filter-sticky{
+    position:sticky; top:0; z-index:20;
+    background:rgba(6,6,7,.82); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
   }
-  .chips{display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; flex:1}
-  .chips::-webkit-scrollbar{display:none}
-  .chip{
-    flex:0 0 auto; padding:7px 15px; border-radius:999px; border:1px solid var(--line);
-    background:transparent; color:var(--muted); font-size:12.5px; font-weight:700; cursor:pointer;
-    font-family:inherit; letter-spacing:.02em; transition:border-color .15s, color .15s;
+  .filterbar{max-width:1120px; margin:0 auto; padding:12px 18px}
+  .tabs{
+    display:flex; gap:4px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    padding:4px; border-radius:999px; background:rgba(255,255,255,.035); border:1px solid var(--line);
   }
-  .chip:hover{border-color:var(--line-strong); color:var(--silver)}
-  .chip.active{
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:7px;
+    padding:9px 15px; border-radius:999px; border:0; background:transparent;
+    color:var(--muted); font-family:inherit; font-size:12.5px; font-weight:800; letter-spacing:.04em;
+    cursor:pointer; white-space:nowrap;
+    transition:color .18s, background-color .18s, transform .12s;
+  }
+  .tab:hover{color:var(--silver)}
+  .tab:active{transform:scale(.97)}
+  .tab .n{
+    font-size:10px; font-weight:800; padding:2px 7px; border-radius:999px;
+    background:rgba(255,255,255,.06); color:var(--dim); letter-spacing:.02em;
+    font-variant-numeric:tabular-nums;
+  }
+  .tab.active{
     background:linear-gradient(180deg,#f7f7f9 0%,#c6c6cc 45%,#97979f 55%,#dcdce0 100%);
-    color:#0a0a0b; border-color:transparent;
+    color:#0a0a0b;
   }
-  .count{color:var(--dim); font-size:11.5px; text-align:center; padding:14px 0 4px; letter-spacing:.14em; text-transform:uppercase}
-  .closed{margin-top:30px; padding-top:28px; border-top:1px solid var(--line)}
-  .closed-head{text-align:center; font-size:11px; letter-spacing:.34em; text-transform:uppercase; font-weight:800; padding-left:.34em}
-  .closed-sub{color:var(--dim); font-size:11.5px; text-align:center; padding:8px 0 0; letter-spacing:.14em; text-transform:uppercase}
-  .closed-grid{padding-top:12px}
+  .tab.active .n{background:rgba(0,0,0,.16); color:#0a0a0b}
+
+  .sliders{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; align-items:end;
+    margin-top:12px; overflow:hidden; max-height:220px; opacity:1;
+    transition:max-height .28s ease, opacity .22s ease, margin-top .28s ease;
+  }
+  .sliders.collapsed{max-height:0; opacity:0; margin-top:0; pointer-events:none}
+  @media(min-width:640px){.sliders{grid-template-columns:1fr 1fr auto; gap:10px 22px}}
+  .sl{min-width:0}
+  .sl-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:4px}
+  .sl-k{font-size:9.5px; font-weight:800; letter-spacing:.22em; text-transform:uppercase; color:var(--dim)}
+  .sl-v{font-size:13px; font-weight:800; color:var(--silver); letter-spacing:.02em; font-variant-numeric:tabular-nums; white-space:nowrap}
+  @media(max-width:479px){.sl-v{font-size:11.5px; letter-spacing:0} .sl-k{letter-spacing:.14em}}
+  input[type=range].rng{
+    --p:100%;
+    -webkit-appearance:none; appearance:none; width:100%; height:26px; background:transparent; margin:0;
+    cursor:pointer; touch-action:pan-x; display:block;
+  }
+  input[type=range].rng:focus{outline:none}
+  input[type=range].rng::-webkit-slider-runnable-track{
+    height:4px; border-radius:999px;
+    background:linear-gradient(90deg,#d8d8dc 0%,#d8d8dc var(--p),rgba(255,255,255,.12) var(--p),rgba(255,255,255,.12) 100%);
+  }
+  input[type=range].rng::-moz-range-track{height:4px; border-radius:999px; background:rgba(255,255,255,.12)}
+  input[type=range].rng::-moz-range-progress{height:4px; border-radius:999px; background:#d8d8dc}
+  input[type=range].rng::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:999px; margin-top:-9px;
+    background:linear-gradient(180deg,#f7f7f9 0%,#c6c6cc 45%,#97979f 55%,#dcdce0 100%);
+    border:1px solid rgba(255,255,255,.5); box-shadow:0 2px 10px rgba(0,0,0,.6);
+    transition:transform .12s;
+  }
+  input[type=range].rng::-moz-range-thumb{
+    width:22px; height:22px; border-radius:999px; border:1px solid rgba(255,255,255,.5);
+    background:linear-gradient(180deg,#f7f7f9 0%,#c6c6cc 45%,#97979f 55%,#dcdce0 100%);
+    box-shadow:0 2px 10px rgba(0,0,0,.6);
+  }
+  input[type=range].rng:active::-webkit-slider-thumb{transform:scale(1.12)}
+  .reset{
+    grid-column:1/-1; justify-self:center; margin-bottom:2px;
+    border:1px solid var(--line-strong); background:transparent; color:var(--silver);
+    font-family:inherit; font-size:10.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    padding:8px 14px; border-radius:999px; cursor:pointer; transition:border-color .15s;
+  }
+  @media(min-width:640px){.reset{grid-column:auto; justify-self:start}}
+  .reset[hidden]{display:none}
+  .reset:hover{border-color:rgba(255,255,255,.4)}
+  .count{color:var(--dim); font-size:11.5px; text-align:center; padding:16px 0 2px; letter-spacing:.14em; text-transform:uppercase}
+  .empty{
+    grid-column:1/-1; text-align:center; padding:48px 18px 40px;
+    border:1px dashed var(--line-strong); border-radius:14px;
+  }
+  .empty .big{font-size:15px; font-weight:800; color:var(--silver); letter-spacing:.04em}
+  .empty p{color:var(--muted); font-size:13px; margin-top:8px; line-height:1.65}
+  .empty .row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
 
   /* Grid */
   .grid{display:grid; grid-template-columns:1fr; gap:14px; padding:10px 0 44px}
@@ -121,6 +182,15 @@
   }
   .card:hover{border-color:var(--line-strong)}
   .card:active{transform:scale(.985)}
+  .card{transition:transform .18s ease, border-color .18s ease, box-shadow .22s ease}
+  .photo img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  @media(hover:hover){
+    .card:hover{transform:translateY(-3px); box-shadow:0 16px 40px rgba(0,0,0,.55)}
+    .card:hover .photo img{transform:scale(1.045)}
+  }
+  @keyframes rise{from{opacity:0; transform:translateY(12px)}}
+  .card.anim{animation:rise .42s cubic-bezier(.2,.7,.2,1) backwards; animation-delay:calc(var(--i,0) * 38ms)}
+  @media(prefers-reduced-motion:reduce){.card.anim{animation:none} .photo img{transition:none} .card:hover{transform:none}}
   .card.pending .photo img{filter:grayscale(.55) brightness(.72)}
   .card.sold{opacity:.75}
   .card.sold .photo img{filter:grayscale(1) brightness(.55)}
@@ -339,20 +409,27 @@
 </header>
 
 <section id="inventory">
-  <div class="inv-head chrome">Available Inventory</div>
-  <nav class="filterbar" aria-label="Filters">
-    <div class="frow"><span class="flabel">Location</span><div class="chips" id="cityChips"></div></div>
-    <div class="frow"><span class="flabel">Budget</span><div class="chips" id="budgetChips"></div></div>
-  </nav>
+  <div class="inv-head chrome">Inventory</div>
+  <div class="filter-sticky">
+    <nav class="filterbar" aria-label="Filters">
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div class="sliders" id="sliders">
+        <div class="sl">
+          <div class="sl-top"><span class="sl-k">Down</span><span class="sl-v" id="downVal">Any</span></div>
+          <input class="rng" type="range" id="downRange" min="0" max="100000" step="500" value="100000" aria-label="Maximum down payment">
+        </div>
+        <div class="sl">
+          <div class="sl-top"><span class="sl-k">Monthly</span><span class="sl-v" id="moVal">Any</span></div>
+          <input class="rng" type="range" id="moRange" min="500" max="50000" step="100" value="50000" aria-label="Maximum monthly payment">
+        </div>
+        <button class="reset" id="resetBtn" type="button" hidden>Reset</button>
+      </div>
+    </nav>
+  </div>
   <div class="count" id="count"></div>
   <main class="wrap">
     <div class="grid" id="grid"></div>
     <a class="req-banner" href="#inquiry"><b>Don't see your car?</b> Tell us what you're hunting and we'll source it →</a>
-    <div class="closed" id="closed" hidden>
-      <div class="closed-head chrome">Recently Closed</div>
-      <div class="closed-sub" id="closedCount"></div>
-      <div class="grid closed-grid" id="closedGrid"></div>
-    </div>
   </main>
 </section>
 
@@ -456,23 +533,34 @@ let INVENTORY = [
 
 /* ============ STATE + HELPERS ============ */
 const grid = document.getElementById('grid');
-const closedEl = document.getElementById('closed');
-const closedCountEl = document.getElementById('closedCount');
-const closedGrid = document.getElementById('closedGrid');
-const cityChipsEl = document.getElementById('cityChips');
-const budgetChipsEl = document.getElementById('budgetChips');
+const tabsEl = document.getElementById('tabs');
+const slidersEl = document.getElementById('sliders');
+const downRange = document.getElementById('downRange');
+const moRange = document.getElementById('moRange');
+const downVal = document.getElementById('downVal');
+const moVal = document.getElementById('moVal');
+const resetBtn = document.getElementById('resetBtn');
 const countEl = document.getElementById('count');
 const modalBg = document.getElementById('modalBg');
 const modal = document.getElementById('modal');
-let activeCity = "All";
-let activeBudget = "All";
 
-const BUDGETS = [
-  {label:"All",          test: () => true},
-  {label:"Under $15K",   test: d => d < 15000},
-  {label:"$15K–$30K",    test: d => d >= 15000 && d < 30000},
-  {label:"$30K+",        test: d => d >= 30000}
+/* Listing-type tabs. A car's type comes straight from its data:
+   sale-only (Term "For sale") / lease-only / lease + sale price / SOLD. */
+const TABS = [
+  {id:'all',   label:'All'},
+  {id:'sale',  label:'For Sale'},
+  {id:'lease', label:'Lease'},
+  {id:'both',  label:'Lease & Buy'},
+  {id:'sold',  label:'Sold'}
 ];
+const DOWN_MAX = +downRange.max, MO_MAX = +moRange.max;
+let activeTab = 'all';
+let maxDown = DOWN_MAX, maxMo = MO_MAX;
+try{
+  const h = (location.hash || '').replace('#','');
+  if (TABS.some(t => t.id === h)) activeTab = h;
+  else { const sv = localStorage.getItem('jt.tab'); if (sv && TABS.some(t => t.id === sv)) activeTab = sv; }
+}catch(e){}
 
 function money(v){
   if (v === null || v === undefined || v === "") return "Ask";
@@ -480,6 +568,7 @@ function money(v){
   return isNaN(n) ? String(v) : "$" + n.toLocaleString("en-US");
 }
 function downNum(c){ const n = parseInt(String(c.down).replace(/\D/g,''),10); return isNaN(n) ? 9e9 : n; }
+function moNum(c){ const n = parseInt(String(c.monthly).replace(/\D/g,''),10); return isNaN(n) ? 0 : n; }
 function esc(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function monogram(car){
   const words = String(car).replace(/[^A-Za-z0-9 ]/g,'').split(' ').filter(w => w && !/^\d+$/.test(w));
@@ -498,41 +587,80 @@ function photoHTML(c){
   }
   return '<div class="ph"><div class="mono">' + esc(monogram(c.car)) + '</div><div class="lbl">Photos on request</div></div>';
 }
+function kind(c){
+  if (c.status === 'SOLD') return 'sold';
+  if (c.sale) return 'sale';
+  if (c.salePrice) return 'both';
+  return 'lease';
+}
+function inTab(c){ const k = kind(c); return activeTab === 'all' ? k !== 'sold' : k === activeTab; }
+/* Sliders are lease filters: sale-only cars ignore them, "numbers on request" cars always show. */
+function inRange(c){
+  const k = kind(c);
+  if (k === 'sale' || k === 'sold') return true;
+  if (!c.down && !c.monthly) return true;
+  const d = downNum(c), m = moNum(c);
+  if (d !== 9e9 && d > maxDown) return false;
+  if (m && m > maxMo) return false;
+  return true;
+}
+const slidersApply = () => activeTab !== 'sale' && activeTab !== 'sold';
 
 /* ============ RENDERING ============ */
-function renderChips(){
-  const cities = [...new Set(INVENTORY.filter(c => c.status !== "SOLD").map(c => c.city).filter(Boolean))].sort();
-  const cityList = ["All", ...cities];
-  if (!cityList.includes(activeCity)) activeCity = "All";
-  cityChipsEl.innerHTML = cityList.map(c =>
-    '<button class="chip' + (c===activeCity?' active':'') + '" data-v="' + esc(c) + '">' + esc(c) + '</button>'
+function renderTabs(){
+  const counts = {};
+  TABS.forEach(t => counts[t.id] = 0);
+  INVENTORY.forEach(c => { const k = kind(c); counts[k] = (counts[k] || 0) + 1; if (k !== 'sold') counts.all++; });
+  tabsEl.innerHTML = TABS.map(t =>
+    '<button class="tab' + (t.id===activeTab ? ' active' : '') + '" role="tab" aria-selected="' + (t.id===activeTab) + '" data-v="' + t.id + '">'
+    + esc(t.label) + '<span class="n">' + (counts[t.id] || 0) + '</span></button>'
   ).join('');
-  cityChipsEl.querySelectorAll('.chip').forEach(b => b.onclick = () => { activeCity = b.dataset.v; render(); });
-
-  budgetChipsEl.innerHTML = BUDGETS.map(b =>
-    '<button class="chip' + (b.label===activeBudget?' active':'') + '" data-v="' + esc(b.label) + '">' + esc(b.label) + '</button>'
-  ).join('');
-  budgetChipsEl.querySelectorAll('.chip').forEach(b => b.onclick = () => { activeBudget = b.dataset.v; render(); });
+  tabsEl.querySelectorAll('.tab').forEach(b => b.onclick = () => {
+    if (b.dataset.v === activeTab) return;
+    activeTab = b.dataset.v;
+    try{ localStorage.setItem('jt.tab', activeTab); history.replaceState(null, '', '#' + activeTab); }catch(e){}
+    render();
+  });
 }
-
-function render(){
-  renderChips();
-  const bTest = (BUDGETS.find(b => b.label===activeBudget) || BUDGETS[0]).test;
-  const list = INVENTORY
-    .filter(c => (activeCity==="All" ? true : c.city===activeCity) && bTest(downNum(c)))
-    .sort((a,b) => statusRank(a.status)-statusRank(b.status) || downNum(a)-downNum(b));
-  const live = list.filter(c => c.status !== "SOLD");
-  const closed = INVENTORY.filter(c => c.status === "SOLD").sort((a,b) => downNum(b)-downNum(a));
-  countEl.textContent = live.length + " vehicle" + (live.length===1?"":"s") + " available";
+function paintSlider(inp, val){
+  inp.value = val;
+  const min = +inp.min, max = +inp.max;
+  inp.style.setProperty('--p', (((val - min) / (max - min)) * 100).toFixed(2) + '%');
+}
+function renderSliders(){
+  slidersEl.classList.toggle('collapsed', !slidersApply());
+  paintSlider(downRange, maxDown);
+  paintSlider(moRange, maxMo);
+  downVal.textContent = maxDown >= DOWN_MAX ? 'Any' : 'Up to ' + money(maxDown);
+  moVal.textContent = maxMo >= MO_MAX ? 'Any' : 'Up to ' + money(maxMo) + '/mo';
+  resetBtn.hidden = (maxDown >= DOWN_MAX && maxMo >= MO_MAX);
+}
+const COUNT_COPY = {
+  all:   n => n + ' vehicle' + (n===1 ? '' : 's') + ' available',
+  sale:  n => n + ' for sale',
+  lease: n => n + ' available to lease',
+  both:  n => n + ' lease-or-buy',
+  sold:  n => n + ' recently closed'
+};
+function render(opts){
+  const anim = !(opts && opts.anim === false);
+  renderTabs();
+  renderSliders();
+  const filtered = slidersApply();
+  const list = INVENTORY.filter(c => inTab(c) && (!filtered || inRange(c)));
+  if (activeTab === 'sold') list.sort((a,b) => downNum(b) - downNum(a));
+  else list.sort((a,b) => statusRank(a.status) - statusRank(b.status) || downNum(a) - downNum(b));
+  const narrowed = filtered && (maxDown < DOWN_MAX || maxMo < MO_MAX);
+  countEl.textContent = COUNT_COPY[activeTab](list.length) + (narrowed ? ' · filtered' : '');
   const stamp = s => s==='PENDING' ? '<div class="stamp"><span>Pending</span></div>'
                    : s==='SOLD'    ? '<div class="stamp"><span>Sold</span></div>' : '';
-  const cardHTML = c => `
-    <article class="card ${c.status==='SOLD'?'sold':''} ${c.status==='PENDING'?'pending':''} ${c.status==='COMING SOON'?'soon':''}" data-i="${INVENTORY.indexOf(c)}">
+  const cardHTML = (c, i) => `
+    <article class="card${anim ? ' anim' : ''} ${c.status==='SOLD'?'sold':''} ${c.status==='PENDING'?'pending':''} ${c.status==='COMING SOON'?'soon':''}" data-i="${INVENTORY.indexOf(c)}" style="--i:${Math.min(i, 11)}">
       <div class="photo">${photoHTML(c)}${stamp(c.status)}${badge(c.status)}${c.city ? '<span class="citytag">'+esc(c.city)+'</span>' : ''}</div>
       <div class="body">
         <div class="name">${esc(c.car)}</div>
         <div class="nums">
-          ${(!c.down && !c.monthly) ? '<span class="soonline">Numbers coming \u2014 ask</span>' : c.sale ? `<span class="down chrome">${money(c.down)}</span><span class="down-lbl">for sale</span>`
+          ${(!c.down && !c.monthly) ? '<span class="soonline">Numbers coming — ask</span>' : c.sale ? `<span class="down chrome">${money(c.down)}</span><span class="down-lbl">for sale</span>`
                    : `<span class="down chrome">${money(c.down)}</span><span class="down-lbl">down</span>
           <span class="mo">${money(c.monthly)}/mo</span>`}
         </div>
@@ -541,13 +669,24 @@ function render(){
         ${c.note ? '<div class="note">'+esc(c.note)+'</div>' : ''}
       </div>
     </article>`;
-  grid.innerHTML = live.map(cardHTML).join('');
+  if (!list.length){
+    const big = activeTab === 'sold' ? 'Nothing closed yet.' : narrowed ? 'Nothing in that range yet.' : 'Nothing here right now.';
+    const sub = narrowed ? 'Widen the sliders, or tell me your numbers and I’ll find the car.' : 'New cars land every week — tell me what you’re hunting.';
+    grid.innerHTML = '<div class="empty"><div class="big">' + big + '</div><p>' + sub + '</p><div class="row">'
+      + (narrowed ? '<button class="ig-btn" id="emptyReset" type="button">Reset filters</button>' : '')
+      + '<a class="ig-btn chrome-fill" style="border:0" href="' + smsLink('Yo Jude! Looking for a car — can you help me find one?') + '">📲 Text Me</a></div></div>';
+    const er = document.getElementById('emptyReset'); if (er) er.onclick = resetFilters;
+    return;
+  }
+  grid.innerHTML = list.map(cardHTML).join('');
   grid.querySelectorAll('.card').forEach(el => el.onclick = () => openModal(+el.dataset.i));
-  closedEl.hidden = !closed.length;
-  closedCountEl.textContent = closed.length + " vehicle" + (closed.length===1?"":"s") + " closed";
-  closedGrid.innerHTML = closed.map(cardHTML).join('');
-  closedGrid.querySelectorAll('.card').forEach(el => el.onclick = () => openModal(+el.dataset.i));
 }
+function resetFilters(){ maxDown = DOWN_MAX; maxMo = MO_MAX; render({anim:false}); }
+let rafId = 0;
+function liveRender(){ if (rafId) return; rafId = requestAnimationFrame(() => { rafId = 0; render({anim:false}); }); }
+downRange.addEventListener('input', () => { maxDown = +downRange.value; liveRender(); });
+moRange.addEventListener('input', () => { maxMo = +moRange.value; liveRender(); });
+resetBtn.onclick = resetFilters;
 
 function openModal(i){
   const c = INVENTORY[i];
