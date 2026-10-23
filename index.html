@@ -883,7 +883,7 @@ function parseCSV(text){
 async function loadSheet(){
   if (!SHEET_CSV_URL) return;
   try{
-    const res = await fetch(SHEET_CSV_URL, {cache:'no-store'});
+    const res = await fetch(SHEET_CSV_URL + (SHEET_CSV_URL.includes('?')?'&':'?') + 't=' + Date.now(), {cache:'no-store'});
     if (!res.ok) return;
     const rows = parseCSV(await res.text());
     if (rows.length < 2) return;
