@@ -611,8 +611,8 @@ function inRange(c){
   if (k === 'sale' || k === 'sold') return true;
   if (!c.down && !c.monthly) return true;
   const d = downNum(c), m = moNum(c);
-  if (d !== 9e9 && d > maxDown) return false;
-  if (m && m > maxMo) return false;
+  if (maxDown < DOWN_MAX && d !== 9e9 && d > maxDown) return false;
+  if (maxMo < MO_MAX && m && m > maxMo) return false;
   return true;
 }
 const slidersApply = () => activeTab !== 'sale' && activeTab !== 'sold' && activeTab !== 'soon';
